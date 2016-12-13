@@ -87,3 +87,10 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Ignoring data files too big for Github
+Data/listings.csv
+Data/reviews.csv
+Data/reviews_cleaned.csv
+Data/calendar.csv
+Data/calendar_cleaned.csv
