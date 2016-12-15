@@ -19,3 +19,26 @@ function predict(){
 
 
 }
+
+$(document).ready(function() {
+  //Resize iframe to full length
+  $('#contentFrame').on("load", function() {
+    console.log("adfjakl;djl")
+    this.style.height = 500
+    this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
+    console.log(this.style.height)
+  });
+
+  //Animate dropdown
+  $('#modelnav li').hover(
+    function () {
+      $('ul', this).stop().slideDown(200);
+    },
+    function () {
+      $('ul', this).stop().slideUp(200);
+    }
+  );
+
+  //Fallback for without JS
+  $('#modelnav li ul').hide().removeClass('fallback');
+});

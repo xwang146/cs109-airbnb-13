@@ -35,17 +35,21 @@
                     <a href="#page-top"></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="try.html" >Intro</a>
+                    <a class="page-scroll" href="#intro">Intro</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="021_visualize_listings_2.html" >Input</a>
+                    <a class="page-scroll" href="#user-input">Input</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="030_baseline.html" >Prediction</a>
+                    <a class="page-scroll" href="#prediction">Prediction</a>
                 </li>
 
                 <li>
-                    <a class="page-scroll" href="041_preprocessing.html" >Contact</a>
+                    <a class="page-scroll" href="#datascience">Modeling</a>
+                </li>
+
+                <li>
+                    <a class="page-scroll" href="#about-us">Contact</a>
                 </li>
             </ul>
         </div>
@@ -224,8 +228,53 @@
         </div>
 </section>
 
+<!-- Embedded ipynb -->
+<section id="datascience" class="content-section text-center">
+    <div class="prediction-section">
+      <h2>Modeling Work</h2>
 
-<!-- Contact Section -->
+      <div id="modelnav">
+        <ul>
+          <li><a href="010_load_data.html" target="content_iframe">Data Cleanup</a></li>
+          <li>
+            <a href="#modelnav">Exploration</a>
+            <ul class="fallback">
+              <li><a href="021_visualize_listings_1.html" target="content_iframe">Listings 1</a></li>
+              <li><a href="021_visualize_listings_2.html" target="content_iframe">Listings 2</a></li>
+              <li><a href="022_visualize_calendar.html" target="content_iframe">Calendar</a></li>
+              <li><a href="023_visualize_reviews.html" target="content_iframe">Reviews</a></li>
+              <li><a href="024_location_clustering.html" target="content_iframe">Location Clustering</a></li>
+            </ul>
+          </li>
+          <li><a href="030_baseline.html" target="content_iframe">Baseline Model</a></li>
+          <li>
+            <a href="#modelnav">Feature Selection</a>
+            <ul class="fallback">
+              <li><a href="041_preprocessing.html" target="content_iframe">Preprocessing</a></li>
+              <li><a href="042_predictor_selection.html" target="content_iframe">Feature Selection</a></li>
+              <li><a href="043_reduce_dim.html" target="content_iframe">PCA</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#modelnav">Modeling</a>
+            <ul class="fallback">
+              <li><a href="051_linear_regression.html" target="content_iframe">Linear Models</a></li>
+              <li><a href="052_quadratic_regression.html" target="content_iframe">Quadratic Models</a></li>
+              <li><a href="053_tree_methods.html" target="content_iframe">Tree Models</a></li>
+              <li><a href="054_SVR.html" target="content_iframe">Support Vectors</a></li>
+              <li><a href="055_ensemble.html" target="content_iframe">Ensemble Methods</a></li>
+              <li><a href="057_chosen_model.html" target="content_iframe">Final Model</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+
+       <iframe id="contentFrame" src="010_load_data.html" width="100%" height="10000px" name="content_iframe"
+          frameborder="0" scrolling="no"></iframe>
+    </div>
+</section>
+
+<!--  Contact Section -->
 <section id="about-us" class="content-section text-center">
     <div class="contact-section">
     <div class="container">

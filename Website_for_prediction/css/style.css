@@ -221,3 +221,58 @@ ul.banner-social-buttons {
   margin-top: 15px;
 }
 
+
+
+/*
+Model navbar
+Based on example here: https://toddmotto.com/html5-and-jquery-super-simple-drop-down-nav/
+*/
+#modelnav a {
+  display: block;
+  color: #CCCCCC;
+  text-align: center;
+  padding: 0.6em 1em;
+  text-decoration: none;
+}
+
+#modelnav {
+  background-color: #111111;
+  float: left;
+  width: 100%;
+}
+
+#modelnav ul {
+  text-align:center;
+}
+
+#modelnav ul li {
+  float:left;
+  display:inline;
+}
+
+#modelnav ul li:hover {
+  background-color: #333333;
+}
+
+#modelnav ul li ul {
+  position: absolute;
+  width: 8em;
+  background-color: #333333;
+  padding: 0;
+}
+
+#modelnav ul li ul li {
+  width: 8em;
+}
+
+#modelnav ul li ul li:hover a {
+  background-color: #555555;
+}
+
+#modelnav ul li ul.fallback {
+  display:none;
+}
+
+#modelnav ul li:hover ul.fallback {
+  display:block;
+}
