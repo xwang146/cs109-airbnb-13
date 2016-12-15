@@ -24,6 +24,11 @@ h1{
   color: darkred;
   font-size: 25px;
 }
+
+h3{
+  color: darkred;
+  font-size: 20px;
+}
 p {
   margin: 0 0 25px;
   font-size: 18px;
