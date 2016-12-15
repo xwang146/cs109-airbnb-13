@@ -9,7 +9,7 @@
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
 </head>
-<body>
+
 
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
 
@@ -22,7 +22,7 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
                 Menu <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand page-scroll" href="#page-top">
+            <a class="navbar-brand page-scroll" href="000_prediction.html">
                 <i class="fa fa-plane"></i> <span class="light">Airbnb</span> prediction
             </a>
         </div>
@@ -35,17 +35,17 @@
                     <a href="#page-top"></a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#intro">Intro</a>
+                    <a class="page-scroll" href="try.html" >Intro</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#user-input">Input</a>
+                    <a class="page-scroll" href="021_visualize_listings_2.html" >Input</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#prediction">Prediction</a>
+                    <a class="page-scroll" href="030_baseline.html" >Prediction</a>
                 </li>
 
                 <li>
-                    <a class="page-scroll" href="#about-us">Contact</a>
+                    <a class="page-scroll" href="041_preprocessing.html" >Contact</a>
                 </li>
             </ul>
         </div>
@@ -53,6 +53,7 @@
     </div>
     <!-- /.container -->
 </nav>
+
 
 <!-- Intro Header -->
 <header class="intro">
@@ -87,13 +88,13 @@
                         <!--<span class="add-on"><i class="icon-th"></i></span>-->
                         <!--</div>-->
 
-                        <div class="input-group date" id="dp3" data-provide="datepicker">
-                            <input type="text" class="form-control">
-                            <div class="input-group-addon">
-                                <span class="glyphicon glyphicon-th"></span>
-                            </div>
-                        </div>
-                    </div>
+                        <!--<div class="input-group date" id="dp3" data-provide="datepicker">-->
+                            <!--<input type="text" class="form-control">-->
+                            <!--<div class="input-group-addon">-->
+                                <!--<span class="glyphicon glyphicon-th"></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <!--<script type="text/javascript">-->
                     <!--$(function () {-->
                     <!--$('#dp3').datetimepicker();-->
@@ -117,73 +118,90 @@
 
 
                     <div class="form-group">
-                        <div class="checkbox">
+                        <div class="radiobox" id="property_type">
                             <strong>Property Type:</strong>
-                            <label>
-                                <input type="checkbox" value="">
-                                Apartment
-                            </label>
-
-                            <label>
-                                <input type="checkbox" value="">
-                                House
-                            </label>
+                            <label class="radio-inline"><input type="radio" value="Apartment">Apartment</label>
+                            <label class="radio-inline"><input type="radio" value="House">House</label>
+                            <label class="radio-inline"><input type="radio" value="Loft">Loft</label>
                         </div>
                     </div>
 
 
                     <div class="form-group">
-                        <div class="checkbox">
-                            <strong>Property Type:</strong>
-                            <label>
-                                <input type="checkbox" value="">
-                                Apartment
-                            </label>
+                        <div class="radiobox" id="room_type">
+                            <strong>Room Type:</strong>
+                            <label class="radio-inline"><input type="radio" value="Entire home/apt">Entire home/apt</label>
+                            <label class="radio-inline"><input type="radio" value="Private room">Private room</label>
+                            <label class="radio-inline"><input type="radio" value="Shared room">Shared room </label>
+                        </div>
+                    </div>
 
-                            <label>
-                                <input type="checkbox" value="">
-                                House
-                            </label>
+                    <div class="form-group">
+                        <div class="radiobox" id="bed_type">
+                            <strong>Bed Type:</strong>
+                            <label class="radio-inline"><input type="radio" value="Real Bed">Real Bed</label>
+                            <label class="radio-inline"><input type="radio" value="Futon">Futon</label>
+                            <label class="radio-inline"><input type="radio" value="Pull-out Sofa">Pull-out Sofa </label>
+                            <label class="radio-inline"><input type="radio" value="Airbed">Airbed</label>
+                            <label class="radio-inline"><input type="radio" value="Couch">Couch</label>
                         </div>
                     </div>
 
 
                     <div class="form-group">
-                        <div class="checkbox">
-                            <strong>Property Type:</strong>
-                            <label>
-                                <input type="checkbox" value="">
-                                Apartment
-                            </label>
+                        <div class="col-sm-3">
+                        <label for="accommodates">Accommodates:</label>
+                        <select class="form-control" id="accommodates">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
 
-                            <label>
-                                <input type="checkbox" value="">
-                                House
-                            </label>
+                        </select>
                         </div>
-                    </div>
+
+                        <div class="col-sm-3">
+                        <label for="bedrooms">Bedrooms:</label>
+                        <select class="form-control" id="bedrooms">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                            </div>
 
 
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <strong>Property Type:</strong>
-                            <label>
-                                <input type="checkbox" value="">
-                                Apartment
-                            </label>
+                            <div class="col-sm-3">
+                        <label for="bathrooms">Bathrooms:</label>
+                        <select class="form-control" id="bathrooms">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                                </div>
 
-                            <label>
-                                <input type="checkbox" value="">
-                                House
-                            </label>
-                        </div>
+
+
+                                <div class="col-sm-3">
+                        <label for="beds">Beds:</label>
+                        <select class="form-control" id="beds">
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                        </select>
+                                    </div>
+
                     </div>
 
 
 
                 </form>
 
-              <a href="#prediction" class="btn btn-default btn-lg"> Submit</a>
+                <br><br><br><br><br><br>
+
+              <a href="#prediction" class="btn btn-default btn-lg" id="sumbit" onclick="predict()"> Submit</a>
 
             </div>
         </div>
@@ -237,6 +255,7 @@
 </section>
 
 
+
 <!-- jQuery -->
 <script src="vendor/jquery/jquery.js"></script>
 
@@ -252,6 +271,8 @@
 <script src="js/d3.min.js"></script>
 <script src="js/topojson.min.js"></script>
 <script src="js/d3.tip.js"></script>
+
+<script src="js/main.js"></script>
 
 
 </body>
