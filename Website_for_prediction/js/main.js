@@ -31,7 +31,7 @@ function predict(){
 $(document).ready(function() {
   //Resize iframe to full length
   $('#contentFrame').on("load", function() {
-    this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
+    this.height = this.contentWindow.document.body.scrollHeight + 'px';
   });
 
   //Animate dropdown
