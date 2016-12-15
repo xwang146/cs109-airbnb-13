@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>056_neural_network</title>
+<title>000_project_summary</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11764,671 +11764,275 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Remark---056_neural_network.ipynb">Remark - 056_neural_network.ipynb<a class="anchor-link" href="#Remark---056_neural_network.ipynb">&#182;</a></h2><ul>
-<li>Keras with TensorFlow backend tested.</li>
-<li>For 4 layer fully connected network, R^2 = 0.673845863795</li>
+<h1 id="Project-Summary">Project Summary<a class="anchor-link" href="#Project-Summary">&#182;</a></h1><h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>Peer-to-peer rental networks such as Airbnb have become an alternative to hotels and other traditional accommodations for travelers seeking cheaper prices or a more personal experience. Renters will often have specific preferences such location, dates, cleanliness, or number of guests, but quantifying how these preferences affect the price is a challenge. Renters on a budget would like to know how various preferences affect the price, so they can make informed choices and compromises when planning their travel. The objective of our project is to predict the price of a Airbnb rental in the New York area based on user preferences</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Dataset">Dataset<a class="anchor-link" href="#Dataset">&#182;</a></h1><ul>
+<li>Airbnb data from January 2015 of listings in the New York area.</li>
+<li>Listings: Data that contain location, pysical properties, review scores.</li>
+<li>Calendar: Data that contain listing price on different days of 2015.</li>
+<li>Reviews: Data that contain review texts from users.</li>
 </ul>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
-<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">savgol_filter</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">mode</span>
-<span class="kn">import</span> <span class="nn">matplotlib</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">dates</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
-<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="kn">as</span> <span class="nn">mdates</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">from</span> <span class="nn">mpl_toolkits.basemap</span> <span class="kn">import</span> <span class="n">Basemap</span>
-<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LassoCV</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
-<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFE</span>
-<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
-<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="o">%</span><span class="k">matplotlib</span> inline
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Workflow">Workflow<a class="anchor-link" href="#Workflow">&#182;</a></h1><p><img src="Figures/Workflow.png"></p>
 
 </div>
 </div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Load-data">Load data<a class="anchor-link" href="#Load-data">&#182;</a></h3>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Load listing data</span>
-<span class="n">listing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../Data/data_after_predictor_selection.csv&#39;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">listing</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
-<span class="n">listing</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
+<h1 id="01.-Load-data">01. Load data<a class="anchor-link" href="#01.-Load-data">&#182;</a></h1><ul>
+<li>File: 010_load_data.ipynb</li>
+<li>We loaded three datasets and correct any incorrect format of data for later analysis.</li>
+</ul>
 
 </div>
 </div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>[&#39;accommodates&#39; &#39;bathrooms&#39; &#39;bedrooms&#39; &#39;review_scores_checkin&#39;
- &#39;review_scores_communication&#39; &#39;latitude&#39; &#39;longitude&#39; &#39;property_type_0&#39;
- &#39;property_type_1&#39; &#39;property_type_2&#39; &#39;property_type_3&#39; &#39;property_type_4&#39;
- &#39;property_type_5&#39; &#39;room_type_0&#39; &#39;room_type_1&#39; &#39;room_type_2&#39; &#39;bed_type_0&#39;
- &#39;bed_type_1&#39; &#39;bed_type_2&#39; &#39;bed_type_3&#39; &#39;bed_type_4&#39; &#39;beds&#39;
- &#39;review_scores_value&#39; &#39;host_listing_count&#39; &#39;review_scores_cleanliness&#39;
- &#39;review_scores_accuracy&#39; &#39;minimum_nights&#39; &#39;price&#39;]
-</pre>
-</div>
-</div>
-
-<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>accommodates</th>
-      <th>bathrooms</th>
-      <th>bedrooms</th>
-      <th>review_scores_checkin</th>
-      <th>review_scores_communication</th>
-      <th>latitude</th>
-      <th>longitude</th>
-      <th>property_type_0</th>
-      <th>property_type_1</th>
-      <th>property_type_2</th>
-      <th>...</th>
-      <th>bed_type_2</th>
-      <th>bed_type_3</th>
-      <th>bed_type_4</th>
-      <th>beds</th>
-      <th>review_scores_value</th>
-      <th>host_listing_count</th>
-      <th>review_scores_cleanliness</th>
-      <th>review_scores_accuracy</th>
-      <th>minimum_nights</th>
-      <th>price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>9.0</td>
-      <td>9.0</td>
-      <td>40.756852</td>
-      <td>-73.964754</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>9.0</td>
-      <td>1</td>
-      <td>7.0</td>
-      <td>9.0</td>
-      <td>3</td>
-      <td>160</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>10</td>
-      <td>1.0</td>
-      <td>3.0</td>
-      <td>9.0</td>
-      <td>8.0</td>
-      <td>40.830599</td>
-      <td>-73.941014</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>3.0</td>
-      <td>8.0</td>
-      <td>2</td>
-      <td>8.0</td>
-      <td>8.0</td>
-      <td>1</td>
-      <td>105</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>10.0</td>
-      <td>10.0</td>
-      <td>40.692189</td>
-      <td>-73.924120</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>2.0</td>
-      <td>10.0</td>
-      <td>4</td>
-      <td>10.0</td>
-      <td>10.0</td>
-      <td>3</td>
-      <td>58</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>10.0</td>
-      <td>10.0</td>
-      <td>40.734751</td>
-      <td>-74.002592</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>1.0</td>
-      <td>9.0</td>
-      <td>1</td>
-      <td>9.0</td>
-      <td>10.0</td>
-      <td>10</td>
-      <td>185</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2</td>
-      <td>1.0</td>
-      <td>1.0</td>
-      <td>10.0</td>
-      <td>10.0</td>
-      <td>40.745282</td>
-      <td>-73.997836</td>
-      <td>1.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>...</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>0.0</td>
-      <td>2.0</td>
-      <td>10.0</td>
-      <td>1</td>
-      <td>10.0</td>
-      <td>10.0</td>
-      <td>1</td>
-      <td>195</td>
-    </tr>
-  </tbody>
-</table>
-<p>5 rows × 28 columns</p>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Feature-engineering:-location-clustering-to-price-by-KNN">Feature engineering: location clustering to price by KNN<a class="anchor-link" href="#Feature-engineering:-location-clustering-to-price-by-KNN">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Step to convert longitude and latitude to price cluster by KNN</span>
-<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span>
-<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">TransformerMixin</span>
-<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
+<h1 id="02.-Data-exploration">02. Data exploration<a class="anchor-link" href="#02.-Data-exploration">&#182;</a></h1><h2 id="Listing-data">Listing data<a class="anchor-link" href="#Listing-data">&#182;</a></h2><ul>
+<li>File: 021_visualize_listings_1.ipynb, 021_visualize_listings_2.ipynb</li>
+<li>We explored listing data to have better understanding of overall listing distribution.</li>
+<li>Correlation between predictors<ul>
+<li><img src="Figures/Fig_021.png"></li>
+</ul>
+</li>
+<li>Most of properties are apartments (&gt; 85%).</li>
+<li>Most of listings rent the whole property (&gt; 50%).</li>
+<li>Most of prices are below 200.</li>
+<li>Most of review scores are high (&gt; 8)</li>
+</ul>
+<h2 id="Calendar-data">Calendar data<a class="anchor-link" href="#Calendar-data">&#182;</a></h2><ul>
+<li>File: 022_visualize_calendar.ipynb</li>
+<li>There is a temporal trend in prices, including local trend (weekend spikes) and global trend (monthly fluctuation).<ul>
+<li><img src="Figures/Fig_022.png"></li>
+</ul>
+</li>
+</ul>
+<h2 id="Review-data">Review data<a class="anchor-link" href="#Review-data">&#182;</a></h2><ul>
+<li>File: 023_visualize_reviews.ipynb</li>
+<li>We cleaned 10% of non-English review texts.</li>
+<li>We analyzed review texts with VADER (Valence Aware Dictionary and sEntiment Reasoner) to get sentiment scores for reviews.</li>
+<li>We checked correlation between price and sentiment scores, it turned out to be low.<ul>
+<li><img src="Figures/Fig_023.png"></li>
+</ul>
+</li>
+</ul>
+<h2 id="Location-clustering-of-price">Location clustering of price<a class="anchor-link" href="#Location-clustering-of-price">&#182;</a></h2><ul>
+<li>File: 024_location_clustering.ipynb</li>
+<li>We checked location clustering of price by KNN</li>
+<li><strong>This feature can be used for feature engineering in later steps.</strong><ul>
+<li><img src="Figures/Fig_024.png"></li>
+</ul>
+</li>
+</ul>
+<h2 id="Conclusion-from-data-exploration">Conclusion from data exploration<a class="anchor-link" href="#Conclusion-from-data-exploration">&#182;</a></h2><ul>
+<li><strong>We mainly use listing data for its aboundance of features for price prediction.</strong></li>
+<li>Althouth calendar data include info for temporal effect of price, we decided not to include the info because: <strong>(1) Predicting a standard price based on the critera of the rental is our primary goal.</strong> (2) On average, weekend price surge is only about 3%. (3) We checked different Airbnb calendar data and found that the global price fluctuation we saw varies in different dataset.</li>
+<li>The review text sentiment scores are not correlated to price. So, we decided not to include them in our model. In addition, in listing data, we already have various numerical review scores.</li>
+</ul>
 
-<span class="k">class</span> <span class="nc">LocationPreprocessor</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">KNeighborsRegressor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">)</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LocationPreprocessor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
-        
-    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]],</span> <span class="n">y</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
-    
-    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
-        <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]])</span>
-        <span class="n">Xnew</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">Xnew</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loc</span>
-        <span class="k">return</span> <span class="n">Xnew</span>
-</pre></div>
-
 </div>
 </div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Split-data-for-training-and-testing-data-with-transformation-log(y)">Split data for training and testing data with transformation log(y)<a class="anchor-link" href="#Split-data-for-training-and-testing-data-with-transformation-log(y)">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Get x and y</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">listing</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">listing</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span>
-<span class="k">print</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
-<span class="k">print</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
+<h1 id="03.-Baseline-model">03. Baseline model<a class="anchor-link" href="#03.-Baseline-model">&#182;</a></h1><ul>
+<li>File: 030_baseline.ipynb</li>
+<li>We fit the data with a linear regression model</li>
+<li>Train Score 0.283973128565</li>
+<li>Test Score 0.312829854813</li>
+<li>We performed cross validation and R^2 values are stable.</li>
+</ul>
 
 </div>
 </div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(27392, 27)
-(27392,)
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Build-Neural-Network-model">Build Neural Network model<a class="anchor-link" href="#Build-Neural-Network-model">&#182;</a></h3>
+<h1 id="04.-Preprocessing">04. Preprocessing<a class="anchor-link" href="#04.-Preprocessing">&#182;</a></h1><ul>
+<li>File: 041_preprocessing.ipynb</li>
+<li>We checked distribution of price (y) and found it's right skewed.</li>
+<li>By log transformation, we were able to get a response distribution that is close to symmetric (which is good for linear regression models).<ul>
+<li><img src="Figures/Fig_041.png"></li>
+</ul>
+</li>
+<li>We checked missing data, most of them are in review scores.</li>
+<li><p>We filled missing numerical data with mean and very few missing categorical data with mode.</p>
+<ul>
+<li><img src="Figures/Fig_042.png"></li>
+</ul>
+</li>
+<li><p>We one hot encoded categorical data.</p>
+</li>
+</ul>
+
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
-<span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
-<span class="kn">from</span> <span class="nn">keras.wrappers.scikit_learn</span> <span class="kn">import</span> <span class="n">KerasRegressor</span>
-<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">cross_val_score</span>
-<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">KFold</span>
-<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
-<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="04.-Data-reduction">04. Data reduction<a class="anchor-link" href="#04.-Data-reduction">&#182;</a></h1><ul>
+<li>File: 042_predictor_selection.ipynb, 043_reduce_dim.ipynb</li>
+<li>We used recursive feature selection and LASSO for feature selection.</li>
+<li>We
+compared results from two methods and select a set of 27 important predictors.</li>
+<li>Selected features = ["accommodates", "bathrooms", "bedrooms", "review_scores_checkin", "review_scores_communication", "latitude", "longitude", "property_type_0", "property_type_1", "property_type_2", "property_type_3", "property_type_4", "property_type_5", "room_type_0", "room_type_1", "room_type_2", "bed_type_0", "bed_type_1", "bed_type_2", "bed_type_3", "bed_type_4", "beds", "review_scores_value", "host_listing_count", "review_scores_cleanliness", "review_scores_accuracy", "minimum_nights"]</li>
+<li>We performed PCA to have 99.9% of explained variance and fit PCA reduced data to a linear regression.<ul>
+<li>R^2 is 0.118438992869. Therefore, we decided not to use PCA and also because our number of predictors are not large.</li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
 </div>
-
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># define R square score function</span>
-<span class="k">def</span> <span class="nf">score</span><span class="p">(</span><span class="n">in_y_pred</span><span class="p">,</span> <span class="n">in_y_act</span><span class="p">):</span>
-    
-<span class="c1">#     in_y_act = in_actual[&#39;y&#39;].values</span>
-<span class="c1">#     in_y_pred = in_predict[&#39;y&#39;].values</span>
-    <span class="n">in_y_act_mean</span> <span class="o">=</span> <span class="n">in_y_act</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    <span class="n">in_y_pred_mean</span> <span class="o">=</span> <span class="n">in_y_pred</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-    
-    <span class="c1"># input in_predict are an input dataframe</span>
-    <span class="n">RSS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">((</span><span class="n">in_y_act</span> <span class="o">-</span> <span class="n">in_y_pred</span><span class="p">),</span> <span class="p">(</span><span class="n">in_y_act</span> <span class="o">-</span> <span class="n">in_y_pred</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="n">TSS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">multiply</span><span class="p">((</span><span class="n">in_y_act</span> <span class="o">-</span> <span class="n">in_y_act_mean</span><span class="p">),</span> <span class="p">(</span><span class="n">in_y_act</span> <span class="o">-</span> <span class="n">in_y_act_mean</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
-    <span class="c1">#</span>
-    <span class="n">R_square</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="n">RSS</span> <span class="o">/</span> <span class="n">TSS</span><span class="p">)</span>
-    
-    <span class="k">return</span> <span class="n">R_square</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="05.-Models">05. Models<a class="anchor-link" href="#05.-Models">&#182;</a></h1><ul>
+<li>File: 051_linear_regression.ipynb</li>
+<li>Linear regression, Lasso, Ridge, Elastic Net<ul>
+<li><img src="Figures/Fig_051.png" width="88%" height="88%"></li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
 </div>
-
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[37]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">larger_model</span><span class="p">():</span>
-    <span class="c1"># create model</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">))</span>
-    <span class="c1"># Compile model</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_squared_error&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">model</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>File: 052_quadratic_regression.ipynb</li>
+<li>Quadratic transformation of numerical predictors.</li>
+<li>Fit quadratic regression, quadratic Lasso, quadratic Ridge, quadratic Elastic Net<ul>
+<li><img src="Figures/Fig_052.png"  width="90%" height="90%"></li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
 </div>
-
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[40]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#fit neural network model</span>
-
-<span class="n">model</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
-            <span class="p">(</span><span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="n">LocationPreprocessor</span><span class="p">()),</span>
-            <span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
-            <span class="p">(</span><span class="s1">&#39;mlp&#39;</span><span class="p">,</span> <span class="n">KerasRegressor</span><span class="p">(</span><span class="n">build_fn</span><span class="o">=</span><span class="n">larger_model</span><span class="p">,</span> <span class="n">nb_epoch</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-        <span class="p">])</span>
-
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>File: 053_tree_methods.ipynb</li>
+<li>Tree models:<ul>
+<li>Random forest: R^2 = 0.687</li>
+<li>Adaboost: R^2 = 0.605</li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
 </div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Epoch 1/100
-19174/19174 [==============================] - 5s - loss: 0.8248     
-Epoch 2/100
-19174/19174 [==============================] - 4s - loss: 0.1586     
-Epoch 3/100
-19174/19174 [==============================] - 4s - loss: 0.1531     
-Epoch 4/100
-19174/19174 [==============================] - 4s - loss: 0.1517     
-Epoch 5/100
-19174/19174 [==============================] - 4s - loss: 0.1510     
-Epoch 6/100
-19174/19174 [==============================] - 4s - loss: 0.1500     
-Epoch 7/100
-19174/19174 [==============================] - 5s - loss: 0.1459     
-Epoch 8/100
-19174/19174 [==============================] - 5s - loss: 0.1443     
-Epoch 9/100
-19174/19174 [==============================] - 5s - loss: 0.1438     
-Epoch 10/100
-19174/19174 [==============================] - 5s - loss: 0.1428     
-Epoch 11/100
-19174/19174 [==============================] - 5s - loss: 0.1410     
-Epoch 12/100
-19174/19174 [==============================] - 5s - loss: 0.1411     
-Epoch 13/100
-19174/19174 [==============================] - 5s - loss: 0.1390     
-Epoch 14/100
-19174/19174 [==============================] - 5s - loss: 0.1394     
-Epoch 15/100
-19174/19174 [==============================] - 5s - loss: 0.1369     
-Epoch 16/100
-19174/19174 [==============================] - 6s - loss: 0.1376     
-Epoch 17/100
-19174/19174 [==============================] - 6s - loss: 0.1363     
-Epoch 18/100
-19174/19174 [==============================] - 6s - loss: 0.1339     
-Epoch 19/100
-19174/19174 [==============================] - 6s - loss: 0.1343     
-Epoch 20/100
-19174/19174 [==============================] - 6s - loss: 0.1334     
-Epoch 21/100
-19174/19174 [==============================] - 6s - loss: 0.1315     
-Epoch 22/100
-19174/19174 [==============================] - 6s - loss: 0.1332     
-Epoch 23/100
-19174/19174 [==============================] - 5s - loss: 0.1321     
-Epoch 24/100
-19174/19174 [==============================] - 5s - loss: 0.1305     
-Epoch 25/100
- 4700/19174 [======&gt;.......................]</pre>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
-</div>
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">ValueError</span>                                Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-40-63b2e9765441&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">      7</span>         ])
-<span class="ansi-green-intense-fg ansi-bold">      8</span> 
-<span class="ansi-green-fg">----&gt; 9</span><span class="ansi-red-fg"> </span>model<span class="ansi-blue-fg">.</span>fit<span class="ansi-blue-fg">(</span>x_train<span class="ansi-blue-fg">,</span> y_train<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/Applications/anaconda/envs/py27/lib/python2.7/site-packages/sklearn/pipeline.pyc</span> in <span class="ansi-cyan-fg">fit</span><span class="ansi-blue-fg">(self, X, y, **fit_params)</span>
-<span class="ansi-green-intense-fg ansi-bold">    163</span>         &#34;&#34;&#34;
-<span class="ansi-green-intense-fg ansi-bold">    164</span>         Xt<span class="ansi-blue-fg">,</span> fit_params <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>_pre_transform<span class="ansi-blue-fg">(</span>X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>fit_params<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 165</span><span class="ansi-red-fg">         </span>self<span class="ansi-blue-fg">.</span>steps<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">.</span>fit<span class="ansi-blue-fg">(</span>Xt<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>fit_params<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    166</span>         <span class="ansi-green-fg">return</span> self
-<span class="ansi-green-intense-fg ansi-bold">    167</span> 
-
-<span class="ansi-green-fg">/Applications/anaconda/envs/py27/lib/python2.7/site-packages/keras/wrappers/scikit_learn.pyc</span> in <span class="ansi-cyan-fg">fit</span><span class="ansi-blue-fg">(self, X, y, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    146</span>         fit_args<span class="ansi-blue-fg">.</span>update<span class="ansi-blue-fg">(</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    147</span> 
-<span class="ansi-green-fg">--&gt; 148</span><span class="ansi-red-fg">         </span>history <span class="ansi-blue-fg">=</span> self<span class="ansi-blue-fg">.</span>model<span class="ansi-blue-fg">.</span>fit<span class="ansi-blue-fg">(</span>X<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>fit_args<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    149</span> 
-<span class="ansi-green-intense-fg ansi-bold">    150</span>         <span class="ansi-green-fg">return</span> history
-
-<span class="ansi-green-fg">/Applications/anaconda/envs/py27/lib/python2.7/site-packages/keras/models.pyc</span> in <span class="ansi-cyan-fg">fit</span><span class="ansi-blue-fg">(self, x, y, batch_size, nb_epoch, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    650</span>                               shuffle<span class="ansi-blue-fg">=</span>shuffle<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    651</span>                               class_weight<span class="ansi-blue-fg">=</span>class_weight<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">--&gt; 652</span><span class="ansi-red-fg">                               sample_weight=sample_weight)
-</span><span class="ansi-green-intense-fg ansi-bold">    653</span> 
-<span class="ansi-green-intense-fg ansi-bold">    654</span>     def evaluate(self, x, y, batch_size=32, verbose=1,
-
-<span class="ansi-green-fg">/Applications/anaconda/envs/py27/lib/python2.7/site-packages/keras/engine/training.pyc</span> in <span class="ansi-cyan-fg">fit</span><span class="ansi-blue-fg">(self, x, y, batch_size, nb_epoch, verbose, callbacks, validation_split, validation_data, shuffle, class_weight, sample_weight, initial_epoch)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1109</span>                               val_f<span class="ansi-blue-fg">=</span>val_f<span class="ansi-blue-fg">,</span> val_ins<span class="ansi-blue-fg">=</span>val_ins<span class="ansi-blue-fg">,</span> shuffle<span class="ansi-blue-fg">=</span>shuffle<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1110</span>                               callback_metrics<span class="ansi-blue-fg">=</span>callback_metrics<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">-&gt; 1111</span><span class="ansi-red-fg">                               initial_epoch=initial_epoch)
-</span><span class="ansi-green-intense-fg ansi-bold">   1112</span> 
-<span class="ansi-green-intense-fg ansi-bold">   1113</span>     <span class="ansi-green-fg">def</span> evaluate<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> x<span class="ansi-blue-fg">,</span> y<span class="ansi-blue-fg">,</span> batch_size<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">32</span><span class="ansi-blue-fg">,</span> verbose<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> sample_weight<span class="ansi-blue-fg">=</span>None<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">/Applications/anaconda/envs/py27/lib/python2.7/site-packages/keras/engine/training.pyc</span> in <span class="ansi-cyan-fg">_fit_loop</span><span class="ansi-blue-fg">(self, f, ins, out_labels, batch_size, nb_epoch, verbose, callbacks, val_f, val_ins, shuffle, callback_metrics, initial_epoch)</span>
-<span class="ansi-green-intense-fg ansi-bold">    830</span>                     batch_logs<span class="ansi-blue-fg">[</span>l<span class="ansi-blue-fg">]</span> <span class="ansi-blue-fg">=</span> o
-<span class="ansi-green-intense-fg ansi-bold">    831</span> 
-<span class="ansi-green-fg">--&gt; 832</span><span class="ansi-red-fg">                 </span>callbacks<span class="ansi-blue-fg">.</span>on_batch_end<span class="ansi-blue-fg">(</span>batch_index<span class="ansi-blue-fg">,</span> batch_logs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    833</span> 
-<span class="ansi-green-intense-fg ansi-bold">    834</span>                 <span class="ansi-green-fg">if</span> batch_index <span class="ansi-blue-fg">==</span> len<span class="ansi-blue-fg">(</span>batches<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span>  <span class="ansi-red-fg"># last batch</span>
-
-<span class="ansi-green-fg">/Applications/anaconda/envs/py27/lib/python2.7/site-packages/keras/callbacks.pyc</span> in <span class="ansi-cyan-fg">on_batch_end</span><span class="ansi-blue-fg">(self, batch, logs)</span>
-<span class="ansi-green-intense-fg ansi-bold">     62</span>         t_before_callbacks <span class="ansi-blue-fg">=</span> time<span class="ansi-blue-fg">.</span>time<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     63</span>         <span class="ansi-green-fg">for</span> callback <span class="ansi-green-fg">in</span> self<span class="ansi-blue-fg">.</span>callbacks<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 64</span><span class="ansi-red-fg">             </span>callback<span class="ansi-blue-fg">.</span>on_batch_end<span class="ansi-blue-fg">(</span>batch<span class="ansi-blue-fg">,</span> logs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     65</span>         self<span class="ansi-blue-fg">.</span>_delta_ts_batch_end<span class="ansi-blue-fg">.</span>append<span class="ansi-blue-fg">(</span>time<span class="ansi-blue-fg">.</span>time<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">-</span> t_before_callbacks<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     66</span>         delta_t_median <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>median<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>_delta_ts_batch_end<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/Applications/anaconda/envs/py27/lib/python2.7/site-packages/keras/callbacks.pyc</span> in <span class="ansi-cyan-fg">on_batch_end</span><span class="ansi-blue-fg">(self, batch, logs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    190</span>         <span class="ansi-red-fg"># will be handled by on_epoch_end</span>
-<span class="ansi-green-intense-fg ansi-bold">    191</span>         <span class="ansi-green-fg">if</span> self<span class="ansi-blue-fg">.</span>verbose <span class="ansi-green-fg">and</span> self<span class="ansi-blue-fg">.</span>seen <span class="ansi-blue-fg">&lt;</span> self<span class="ansi-blue-fg">.</span>params<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">&#39;nb_sample&#39;</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">--&gt; 192</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>progbar<span class="ansi-blue-fg">.</span>update<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">.</span>seen<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>log_values<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    193</span> 
-<span class="ansi-green-intense-fg ansi-bold">    194</span>     <span class="ansi-green-fg">def</span> on_epoch_end<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> epoch<span class="ansi-blue-fg">,</span> logs<span class="ansi-blue-fg">=</span><span class="ansi-blue-fg">{</span><span class="ansi-blue-fg">}</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">/Applications/anaconda/envs/py27/lib/python2.7/site-packages/keras/utils/generic_utils.pyc</span> in <span class="ansi-cyan-fg">update</span><span class="ansi-blue-fg">(self, current, values, force)</span>
-<span class="ansi-green-intense-fg ansi-bold">    156</span>                 info <span class="ansi-blue-fg">+=</span> <span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">(</span>prev_total_width <span class="ansi-blue-fg">-</span> self<span class="ansi-blue-fg">.</span>total_width<span class="ansi-blue-fg">)</span> <span class="ansi-blue-fg">*</span> <span class="ansi-blue-fg">&#34; &#34;</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    157</span> 
-<span class="ansi-green-fg">--&gt; 158</span><span class="ansi-red-fg">             </span>sys<span class="ansi-blue-fg">.</span>stdout<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span>info<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    159</span>             sys<span class="ansi-blue-fg">.</span>stdout<span class="ansi-blue-fg">.</span>flush<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    160</span> 
-
-<span class="ansi-green-fg">/Applications/anaconda/envs/py27/lib/python2.7/site-packages/ipykernel/iostream.pyc</span> in <span class="ansi-cyan-fg">write</span><span class="ansi-blue-fg">(self, string)</span>
-<span class="ansi-green-intense-fg ansi-bold">    315</span> 
-<span class="ansi-green-intense-fg ansi-bold">    316</span>             is_child <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">(</span><span class="ansi-green-fg">not</span> self<span class="ansi-blue-fg">.</span>_is_master_process<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">--&gt; 317</span><span class="ansi-red-fg">             </span>self<span class="ansi-blue-fg">.</span>_buffer<span class="ansi-blue-fg">.</span>write<span class="ansi-blue-fg">(</span>string<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    318</span>             <span class="ansi-green-fg">if</span> is_child<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    319</span>                 <span class="ansi-red-fg"># newlines imply flush in subprocesses</span>
-
-<span class="ansi-red-fg">ValueError</span>: I/O operation on closed file</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[39]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">y_train_pred</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_train</span><span class="p">)</span>
-<span class="n">y_test_pred</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
-<span class="k">print</span> <span class="s1">&#39;Train Score:&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_train_pred</span><span class="p">,(</span><span class="n">y_train_pred</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],)),</span> <span class="n">y_train</span><span class="p">)</span>
-<span class="k">print</span> <span class="s1">&#39;Test Score:&#39;</span><span class="p">,</span> <span class="n">score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">y_test_pred</span><span class="p">,(</span><span class="n">y_test_pred</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],)),</span> <span class="n">y_test</span><span class="p">)</span>
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>File: 054_SVR.ipynb</li>
+<li>SVR R^2 = 0.677</li>
+</ul>
 
 </div>
 </div>
 </div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt"></div>
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>Train Score: 0.712446522943
-Test Score: 0.673845863795
-</pre>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span> 
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>File: 055_ensemble.ipynb</li>
+<li>Gradient Boosting<ul>
+<li>R^2 0.65946833061</li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
 </div>
-
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span> 
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>File: 056_neural_network.ipynb</li>
+<li>Neural Network (four layers fully connected model)<ul>
+<li>R^2 = 0.673845863795</li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
 </div>
-
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span> 
-</pre></div>
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>File: 057_chosen_model.ipynb</li>
+<li>Random forest<ul>
+<li>R^2 = 0.700301598143</li>
+</ul>
+</li>
+<li>Error analysis<ul>
+<li><img src="Figures/Fig_053.png"></li>
+<li><img src="Figures/Fig_054.png"></li>
+</ul>
+</li>
+</ul>
 
 </div>
 </div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span> 
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
     </div>
   </div>
