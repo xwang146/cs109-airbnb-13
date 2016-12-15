@@ -27,9 +27,29 @@ function predict(){
 
 }
 
+//Modeling (ipynb) section navbar
+$(document).ready(function() {
+  //Resize iframe to full length
+  $('#contentFrame').on("load", function() {
+    this.style.height = this.contentWindow.document.body.scrollHeight + 'px';
+  });
+
+  //Animate dropdown
+  $('#modelnav li').hover(
+    function () {
+      $('ul', this).stop().slideDown(200);
+    },
+    function () {
+      $('ul', this).stop().slideUp(200);
+    }
+  );
+
+  //Fallback for without JS
+  $('#modelnav li ul').hide().removeClass('fallback');
+});
+//End modeling navbar
 
 
-// SVG Size for map
 var margin = {top: 20, right: 10, bottom: 20, left: 20};
 var width = 700 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;

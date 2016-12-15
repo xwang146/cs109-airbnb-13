@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>010_load_data</title>
+<title>052_quadratic_regression</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -11764,198 +11764,42 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Remark---01_load_data">Remark - 01_load_data<a class="anchor-link" href="#Remark---01_load_data">&#182;</a></h2><ul>
-<li>Load listings.csv, calendar.csv, and reviews.csv</li>
-<li>Store cleaned datasets</li>
+<h2 id="Remark---052_quadratic_regression.ipynb">Remark - 052_quadratic_regression.ipynb<a class="anchor-link" href="#Remark---052_quadratic_regression.ipynb">&#182;</a></h2><ul>
+<li>Do quadratic regression models</li>
 </ul>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Code-for-loading-listings">Code for loading listings<a class="anchor-link" href="#Code-for-loading-listings">&#182;</a></h2>
-</div>
-</div>
-</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
-
-<span class="c1">#default transformation</span>
-<span class="k">def</span> <span class="nf">transform_default</span><span class="p">(</span><span class="n">input_string</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">input_string</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-
-<span class="c1">#transform a string date into string number of days after 1/1/08</span>
-<span class="n">start_date</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2008</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">transform_date</span><span class="p">(</span><span class="n">date_string</span><span class="p">):</span>
-  <span class="k">if</span> <span class="n">date_string</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-    <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-  <span class="k">elif</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">date_string</span><span class="p">:</span>
-    <span class="n">month</span><span class="p">,</span> <span class="n">day</span><span class="p">,</span> <span class="n">year</span> <span class="o">=</span> <span class="n">date_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-    <span class="n">end_date</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2000</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">))</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">end_date</span> <span class="o">-</span> <span class="n">start_date</span><span class="p">)</span><span class="o">.</span><span class="n">days</span>
-  <span class="k">elif</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">date_string</span><span class="p">:</span>
-    <span class="n">year</span><span class="p">,</span> <span class="n">month</span><span class="p">,</span> <span class="n">day</span> <span class="o">=</span> <span class="n">date_string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
-    <span class="n">end_date</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2000</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">month</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">day</span><span class="p">))</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">end_date</span> <span class="o">-</span> <span class="n">start_date</span><span class="p">)</span><span class="o">.</span><span class="n">days</span>
-  <span class="k">else</span><span class="p">:</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot parse date &quot;</span> <span class="o">+</span> <span class="n">date_string</span><span class="p">)</span>
-
-<span class="c1">#transform price</span>
-<span class="k">def</span> <span class="nf">transform_price</span><span class="p">(</span><span class="n">price_string</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">price_string</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">price_string</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">price_string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;$&quot;</span> <span class="ow">and</span> <span class="n">price_string</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">&quot;.00&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">price_string</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot parse price &quot;</span> <span class="o">+</span> <span class="n">price_string</span><span class="p">)</span>
-
-<span class="c1">#transform zip by removing extended part</span>
-<span class="k">def</span> <span class="nf">transform_zip</span><span class="p">(</span><span class="n">zip_string</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">zip_string</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">zip_string</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">zip_string</span><span class="p">)</span> <span class="o">==</span> <span class="mi">10</span> <span class="ow">and</span> <span class="s2">&quot;-&quot;</span> <span class="ow">in</span> <span class="n">zip_string</span><span class="p">:</span>
-        <span class="c1">#zip + 4 format</span>
-        <span class="k">return</span> <span class="n">zip_string</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1">#invalid (e.g CALL FOR DETAILS)</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-
-<span class="c1">#transform room type to int</span>
-<span class="n">bed_type_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;REAL BED&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;FUTON&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;PULL-OUT SOFA&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;AIRBED&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;COUCH&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
-<span class="k">def</span> <span class="nf">transform_bed_type</span><span class="p">(</span><span class="n">input_string</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">bed_type_map</span><span class="p">[</span><span class="n">input_string</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
-
-<span class="c1">#transform room type to int</span>
-<span class="n">room_type_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ENTIRE HOME/APT&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;PRIVATE ROOM&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;SHARED ROOM&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
-<span class="k">def</span> <span class="nf">transform_room_type</span><span class="p">(</span><span class="n">input_string</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">room_type_map</span><span class="p">[</span><span class="n">input_string</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
-
-<span class="c1">#transform property type to int, combining rare entries into other = 5</span>
-<span class="n">property_type_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;APARTMENT&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;HOUSE&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;LOFT&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;BED &amp; BREAKFAST&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;DORM&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-<span class="s1">&#39;&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;CHALET&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>    <span class="s1">&#39;EARTH HOUSE&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;CAMPER/RV&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;CABIN&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;LIGHTHOUSE&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
-<span class="s1">&#39;VILLA&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>    <span class="s1">&#39;CAVE&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;TREEHOUSE&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;HUT&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;OTHER&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;BOAT&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;CASTLE&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;TENT&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
-<span class="k">def</span> <span class="nf">transform_property_type</span><span class="p">(</span><span class="n">input_string</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">property_type_map</span><span class="p">[</span><span class="n">input_string</span><span class="o">.</span><span class="n">upper</span><span class="p">()]</span>
-
-<span class="c1">#list of all columns to keep and their cleanup function</span>
-<span class="n">column_mapping</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="c1">#&quot;scrape_id&quot;</span>
-    <span class="c1">#&quot;last_scraped&quot;</span>
-    <span class="c1">#&quot;name&quot;</span>
-    <span class="c1">#&quot;picture_url&quot;</span>
-    <span class="c1">#&quot;host_id&quot;</span>
-    <span class="c1">#&quot;host_name&quot;</span>
-    <span class="s2">&quot;host_since&quot;</span><span class="p">:</span> <span class="n">transform_date</span><span class="p">,</span>
-    <span class="c1">#&quot;host_picture_url&quot;</span>
-    <span class="c1">#&quot;street&quot;</span>
-    <span class="c1">#&quot;neighbourhood&quot;</span>
-    <span class="c1">#&quot;neighbourhood_cleansed&quot;: transform_default,</span>
-    <span class="c1">#&quot;city&quot;</span>
-    <span class="c1">#&quot;state&quot;</span>
-    <span class="s2">&quot;zipcode&quot;</span><span class="p">:</span> <span class="n">transform_zip</span><span class="p">,</span>
-    <span class="c1">#&quot;market&quot;</span>
-    <span class="c1">#&quot;country&quot;</span>
-    <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="c1">#&quot;is_location_exact&quot;</span>
-    <span class="s2">&quot;property_type&quot;</span><span class="p">:</span> <span class="n">transform_property_type</span><span class="p">,</span>
-    <span class="s2">&quot;room_type&quot;</span><span class="p">:</span> <span class="n">transform_room_type</span><span class="p">,</span>
-    <span class="s2">&quot;accommodates&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;bathrooms&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;bedrooms&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;beds&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;bed_type&quot;</span><span class="p">:</span> <span class="n">transform_bed_type</span><span class="p">,</span>
-    <span class="c1">#&quot;square_feet&quot;</span>
-    <span class="s2">&quot;price&quot;</span><span class="p">:</span> <span class="n">transform_price</span><span class="p">,</span>
-    <span class="c1">#&quot;weekly_price&quot;</span>
-    <span class="c1">#&quot;monthly_price&quot;</span>
-    <span class="s2">&quot;guests_included&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="c1">#&quot;extra_people&quot;</span>
-    <span class="s2">&quot;minimum_nights&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;maximum_nights&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="c1">#&quot;calendar_updated&quot;</span>
-    <span class="s2">&quot;availability_30&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;availability_60&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;availability_90&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;availability_365&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="c1">#&quot;calendar_last_scraped&quot;</span>
-    <span class="s2">&quot;number_of_reviews&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;first_review&quot;</span><span class="p">:</span> <span class="n">transform_date</span><span class="p">,</span>
-    <span class="s2">&quot;last_review&quot;</span><span class="p">:</span> <span class="n">transform_date</span><span class="p">,</span>
-    <span class="s2">&quot;review_scores_rating&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;review_scores_accuracy&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;review_scores_cleanliness&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;review_scores_checkin&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;review_scores_communication&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;review_scores_location&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;review_scores_value&quot;</span><span class="p">:</span> <span class="n">transform_default</span><span class="p">,</span>
-    <span class="s2">&quot;host_listing_count&quot;</span><span class="p">:</span> <span class="n">transform_default</span>
-<span class="p">}</span>
-
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../../Data/listings.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;rU&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">original_data</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../../Data/listings_clean.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">new_data</span><span class="p">:</span>
-    <span class="c1">#create reader for data</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">original_data</span><span class="p">)</span>
-
-    <span class="c1">#generate new headers</span>
-    <span class="n">headers</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">reader</span><span class="o">.</span><span class="n">fieldnames</span><span class="p">)</span>
-    <span class="n">new_headers</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">headers</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">column_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">new_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
-    <span class="c1">#move price to end</span>
-    <span class="n">new_headers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_headers</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">new_headers</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">)))</span>
-
-    <span class="c1">#create writer</span>
-    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="n">new_headers</span><span class="p">)</span>
-    <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
-
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-        <span class="n">new_row</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1">#transform data</span>
-        <span class="k">for</span> <span class="n">column</span><span class="p">,</span> <span class="n">transformer</span> <span class="ow">in</span> <span class="n">column_mapping</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
-            <span class="n">new_row</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">=</span> <span class="n">transformer</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="n">column</span><span class="p">])</span>
-        <span class="c1">#write transformed data to new file</span>
-        <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">new_row</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Code-for-loading-calendar">Code for loading calendar<a class="anchor-link" href="#Code-for-loading-calendar">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">savgol_filter</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">mode</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="kn">as</span> <span class="nn">cmx</span>
-<span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="kn">as</span> <span class="nn">colors</span>
-<span class="kn">import</span> <span class="nn">csv</span>
-<span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">dates</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">colors</span>
+<span class="kn">import</span> <span class="nn">matplotlib.dates</span> <span class="kn">as</span> <span class="nn">mdates</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">mpl_toolkits.basemap</span> <span class="kn">import</span> <span class="n">Basemap</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="kn">as</span> <span class="nn">sm</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LassoCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_selection</span> <span class="kn">import</span> <span class="n">RFE</span>
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 
@@ -11964,56 +11808,242 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Load-data">Load data<a class="anchor-link" href="#Load-data">&#182;</a></h3>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#This cell flattens calendar table to grid of prices</span>
-<span class="c1">#It takes input calendar.csv and outputs to a file calendar_grid.csv</span>
-<span class="c1">#You should only need to run it once to generate the calendar_grid.csv file</span>
-<span class="k">def</span> <span class="nf">transform_price</span><span class="p">(</span><span class="n">price_string</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">price_string</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;&quot;</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">price_string</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="ow">and</span> <span class="n">price_string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;$&quot;</span> <span class="ow">and</span> <span class="n">price_string</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:]</span> <span class="o">==</span> <span class="s2">&quot;.00&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">price_string</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">price_string</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">price_string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;$&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">price_string</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot parse price &quot;</span> <span class="o">+</span> <span class="n">price_string</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Load listing data</span>
+<span class="n">listing</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../Data/data_after_predictor_selection.csv&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">listing</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+<span class="n">listing</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
 
-<span class="n">start_date</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">dates</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">start_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">i</span><span class="p">))[</span><span class="mi">5</span><span class="p">:]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">365</span><span class="p">)]</span>
+</div>
+</div>
+</div>
 
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../../Data/calendar.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;rU&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">original_data</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;../../calendar_grid.csv&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">new_data</span><span class="p">:</span>
-    <span class="c1">#create reader for data</span>
-    <span class="c1">#we capture the second half of price in price2</span>
-    <span class="c1">#file format is badly designed with commas in thousands e.g. $1,100</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">original_data</span><span class="p">,</span> <span class="n">restkey</span><span class="o">=</span><span class="s2">&quot;price2&quot;</span><span class="p">)</span>
+<div class="output_wrapper">
+<div class="output">
 
-    <span class="c1">#create writer</span>
-    <span class="n">writer</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictWriter</span><span class="p">(</span><span class="n">new_data</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;listing_id&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">dates</span><span class="p">)</span>
-    <span class="n">writer</span><span class="o">.</span><span class="n">writeheader</span><span class="p">()</span>
 
-    <span class="n">new_row</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="n">current_listing_id</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">current_listing_id</span> <span class="o">!=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;listing_id&quot;</span><span class="p">]:</span>
-            <span class="c1">#write previous row</span>
-            <span class="k">if</span> <span class="n">new_row</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">new_row</span><span class="p">)</span>
-            <span class="c1">#setup new row</span>
-            <span class="n">current_listing_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;listing_id&quot;</span><span class="p">]</span>
-            <span class="n">new_row</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;listing_id&quot;</span><span class="p">:</span> <span class="n">current_listing_id</span><span class="p">}</span>
-        <span class="c1">#join price segments</span>
-        <span class="k">if</span> <span class="s2">&quot;price2&quot;</span> <span class="ow">in</span> <span class="n">row</span><span class="p">:</span>
-            <span class="n">price</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;price&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;price2&quot;</span><span class="p">])</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">price</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;price&quot;</span><span class="p">]</span>
-        <span class="c1">#add date entry</span>
-        <span class="n">new_row</span><span class="p">[</span><span class="n">row</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">][</span><span class="mi">5</span><span class="p">:]]</span> <span class="o">=</span> <span class="n">transform_price</span><span class="p">(</span><span class="n">price</span><span class="p">)</span>
-    <span class="c1">#write final row</span>
-    <span class="n">writer</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">new_row</span><span class="p">)</span>
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;accommodates&#39; &#39;bathrooms&#39; &#39;bedrooms&#39; &#39;review_scores_checkin&#39;
+ &#39;review_scores_communication&#39; &#39;latitude&#39; &#39;longitude&#39; &#39;property_type_0&#39;
+ &#39;property_type_1&#39; &#39;property_type_2&#39; &#39;property_type_3&#39; &#39;property_type_4&#39;
+ &#39;property_type_5&#39; &#39;room_type_0&#39; &#39;room_type_1&#39; &#39;room_type_2&#39; &#39;bed_type_0&#39;
+ &#39;bed_type_1&#39; &#39;bed_type_2&#39; &#39;bed_type_3&#39; &#39;bed_type_4&#39; &#39;beds&#39; &#39;price&#39;]
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[2]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>accommodates</th>
+      <th>bathrooms</th>
+      <th>bedrooms</th>
+      <th>review_scores_checkin</th>
+      <th>review_scores_communication</th>
+      <th>latitude</th>
+      <th>longitude</th>
+      <th>property_type_0</th>
+      <th>property_type_1</th>
+      <th>property_type_2</th>
+      <th>...</th>
+      <th>room_type_0</th>
+      <th>room_type_1</th>
+      <th>room_type_2</th>
+      <th>bed_type_0</th>
+      <th>bed_type_1</th>
+      <th>bed_type_2</th>
+      <th>bed_type_3</th>
+      <th>bed_type_4</th>
+      <th>beds</th>
+      <th>price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>9.0</td>
+      <td>9.0</td>
+      <td>40.756852</td>
+      <td>-73.964754</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>160</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10</td>
+      <td>1.0</td>
+      <td>3.0</td>
+      <td>9.0</td>
+      <td>8.0</td>
+      <td>40.830599</td>
+      <td>-73.941014</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>3.0</td>
+      <td>105</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>10.0</td>
+      <td>10.0</td>
+      <td>40.692189</td>
+      <td>-73.924120</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>58</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>10.0</td>
+      <td>10.0</td>
+      <td>40.734751</td>
+      <td>-74.002592</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>185</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>10.0</td>
+      <td>10.0</td>
+      <td>40.745282</td>
+      <td>-73.997836</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>...</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>1.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>2.0</td>
+      <td>195</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 23 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Feature-engineering:-location-clustering-to-price-by-KNN">Feature engineering: location clustering to price by KNN<a class="anchor-link" href="#Feature-engineering:-location-clustering-to-price-by-KNN">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Step to convert longitude and latitude to price cluster by KNN</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">TransformerMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.neighbors</span> <span class="kn">import</span> <span class="n">KNeighborsRegressor</span>
+
+<span class="k">class</span> <span class="nc">LocationPreprocessor</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">KNeighborsRegressor</span><span class="p">(</span><span class="n">n_neighbors</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="s2">&quot;uniform&quot;</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">LocationPreprocessor</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        
+    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]],</span> <span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[[</span><span class="s2">&quot;longitude&quot;</span><span class="p">,</span> <span class="s2">&quot;latitude&quot;</span><span class="p">]])</span>
+        <span class="n">Xnew</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">Xnew</span><span class="p">[</span><span class="s2">&quot;location&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loc</span>
+        <span class="k">return</span> <span class="n">Xnew</span>
 </pre></div>
 
 </div>
@@ -12026,22 +12056,123 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Code-for-loading-reviews">Code for loading reviews<a class="anchor-link" href="#Code-for-loading-reviews">&#182;</a></h2>
+<h2 id="Split-data-for-training-and-testing-data-with-transformation-log(y)">Split data for training and testing data with transformation log(y)<a class="anchor-link" href="#Split-data-for-training-and-testing-data-with-transformation-log(y)">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Quadrature-transformation-of-x">Quadrature transformation of x<a class="anchor-link" href="#Quadrature-transformation-of-x">&#182;</a></h3>
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">from</span> <span class="nn">langdetect</span> <span class="kn">import</span> <span class="n">detect</span>
-<span class="kn">import</span> <span class="nn">goslate</span>
-<span class="kn">from</span> <span class="nn">guess_language</span> <span class="kn">import</span> <span class="n">guess_language</span> <span class="k">as</span> <span class="n">guess_lan</span>
-<span class="kn">import</span> <span class="nn">enchant</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#split numerical and categorical predictors</span>
+<span class="n">numr</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;accommodates&#39;</span><span class="p">,</span> <span class="s1">&#39;bathrooms&#39;</span><span class="p">,</span> <span class="s1">&#39;bedrooms&#39;</span><span class="p">,</span> <span class="s1">&#39;review_scores_checkin&#39;</span><span class="p">,</span>
+ <span class="s1">&#39;review_scores_communication&#39;</span><span class="p">,</span> <span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;beds&#39;</span><span class="p">]</span>
+<span class="n">cate</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;property_type_0&#39;</span><span class="p">,</span> <span class="s1">&#39;property_type_1&#39;</span><span class="p">,</span> <span class="s1">&#39;property_type_2&#39;</span><span class="p">,</span> <span class="s1">&#39;property_type_3&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;property_type_4&#39;</span><span class="p">,</span> <span class="s1">&#39;property_type_5&#39;</span><span class="p">,</span> <span class="s1">&#39;room_type_0&#39;</span><span class="p">,</span> <span class="s1">&#39;room_type_1&#39;</span><span class="p">,</span> <span class="s1">&#39;room_type_2&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;bed_type_0&#39;</span><span class="p">,</span> <span class="s1">&#39;bed_type_1&#39;</span><span class="p">,</span> <span class="s1">&#39;bed_type_2&#39;</span><span class="p">,</span> <span class="s1">&#39;bed_type_3&#39;</span><span class="p">,</span> <span class="s1">&#39;bed_type_4&#39;</span><span class="p">]</span>
+<span class="n">x_numr</span> <span class="o">=</span> <span class="n">listing</span><span class="p">[</span><span class="n">numr</span><span class="p">]</span>
+<span class="n">x_cate</span> <span class="o">=</span> <span class="n">listing</span><span class="p">[</span><span class="n">cate</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">x_numr</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">print</span> <span class="n">x_cate</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(27392, 8)
+(27392, 14)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#quadracture transformation</span>
+<span class="n">quad_features</span> <span class="o">=</span> <span class="n">preprocessing</span><span class="o">.</span><span class="n">PolynomialFeatures</span><span class="p">(</span><span class="n">degree</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">x_expanded</span> <span class="o">=</span> <span class="n">quad_features</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">x_numr</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">x_expanded</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(27392, 45)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x_expanded</span><span class="p">,</span> <span class="n">x_cate</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">listing</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="k">print</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+<span class="k">print</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(27392, 59)
+(27392,)
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12049,158 +12180,301 @@ div#notebook {
 </div>
 
 </div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Linear-Models:">Linear Models:<a class="anchor-link" href="#Linear-Models:">&#182;</a></h2><h3 id="Linear-regression">Linear regression<a class="anchor-link" href="#Linear-regression">&#182;</a></h3>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># read data</span>
-<span class="n">reviews</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../Data/reviews.csv&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#fit linear regression model</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LinearRegression</span>
 
-<span class="c1"># check data</span>
-<span class="n">reviews</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+            <span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s2">&quot;LinearModel&quot;</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">())</span>
+        <span class="p">])</span>
+
+<span class="c1"># model = Pipeline([</span>
+<span class="c1">#             (&quot;location&quot;, LocationPreprocessor()),</span>
+<span class="c1">#             (&quot;normalize&quot;, StandardScaler()),</span>
+<span class="c1">#             (&quot;LinearModel&quot;, LinearRegression())</span>
+<span class="c1">#         ])</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Train Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Test Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">LR_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)],</span> 
+                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Train Score 0.636819418513
+Test Score 0.637551177773
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Lasso-regression-(L1-regularization)">Lasso regression (L1 regularization)<a class="anchor-link" href="#Lasso-regression-(L1-regularization)">&#182;</a></h3>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">reviews</span><span class="p">[</span><span class="s1">&#39;null_review&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">reviews</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],])</span>
-<span class="n">reviews</span><span class="p">[</span><span class="s1">&#39;if_English&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">reviews</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],])</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#fit Lasso model</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+            <span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s2">&quot;lasso&quot;</span><span class="p">,</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.02</span><span class="p">))</span>
+        <span class="p">])</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Train Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Test Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">Lasso_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)],</span> 
+                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Train Score 0.564978386565
+Test Score 0.573400270527
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Ridge-regression-(L2-regularization)">Ridge regression (L2 regularization)<a class="anchor-link" href="#Ridge-regression-(L2-regularization)">&#182;</a></h3>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">check_null</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-    
-    <span class="k">if</span> <span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">])</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">0</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#fit Ridge model</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+            <span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s2">&quot;ridge&quot;</span><span class="p">,</span> <span class="n">Ridge</span><span class="p">())</span>
+        <span class="p">])</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Train Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Test Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">Ridge_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)],</span> 
+                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Train Score 0.583849954339
+Test Score 0.587212278547
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="ElasticNet-regression-(L1-+-L2-regularization)">ElasticNet regression (L1 + L2 regularization)<a class="anchor-link" href="#ElasticNet-regression-(L1-+-L2-regularization)">&#182;</a></h3>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Clean up &#39;NaN&#39; rows</span>
-<span class="n">reviews</span><span class="p">[</span><span class="s1">&#39;null_review&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reviews</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">check_null</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">reviews</span> <span class="o">=</span> <span class="n">reviews</span><span class="p">[</span><span class="n">reviews</span><span class="p">[</span><span class="s1">&#39;null_review&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
-<span class="c1"># Check reduced data size</span>
-<span class="k">print</span> <span class="n">reviews</span><span class="o">.</span><span class="n">shape</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#fit Ridge model</span>
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="kn">import</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">ElasticNet</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([</span>
+            <span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s2">&quot;elasticnet&quot;</span><span class="p">,</span> <span class="n">ElasticNet</span> <span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.02</span><span class="p">))</span>
+        <span class="p">])</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Train Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Test Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="n">ElasticNet_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)],</span> 
+                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Train Score 0.573240276619
+Test Score 0.58090557328
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Compare-four-quadratic-models">Compare four quadratic models<a class="anchor-link" href="#Compare-four-quadratic-models">&#182;</a></h3>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># check if review is English</span>
-<span class="k">def</span> <span class="nf">check_if_english1</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
-    <span class="n">in_str</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s1">&#39;comments&#39;</span><span class="p">]</span>
-    <span class="n">count_not_en</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">words</span> <span class="o">=</span> <span class="n">in_str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-    <span class="n">d</span> <span class="o">=</span> <span class="n">enchant</span><span class="o">.</span><span class="n">Dict</span><span class="p">(</span><span class="s2">&quot;en_US&quot;</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">words</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span> <span class="ow">is</span> <span class="bp">False</span><span class="p">:</span>
-            <span class="n">count_not_en</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="nb">float</span><span class="p">(</span><span class="n">count_not_en</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">words</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.3</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">0</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="mi">1</span>
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#compare all scores</span>
+<span class="n">score_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Quad regression&#39;</span><span class="p">:</span> <span class="n">LR_score</span><span class="p">,</span> 
+                         <span class="s1">&#39;Quad Lasso&#39;</span><span class="p">:</span> <span class="n">Lasso_score</span><span class="p">,</span>
+                         <span class="s1">&#39;Quad Ridge&#39;</span><span class="p">:</span> <span class="n">Ridge_score</span><span class="p">,</span>
+                         <span class="s1">&#39;Quad Elastic Net&#39;</span><span class="p">:</span> <span class="n">ElasticNet_score</span><span class="p">})</span>
+<span class="n">score_df</span>
 </pre></div>
 
 </div>
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Quad Elastic Net</th>
+      <th>Quad Lasso</th>
+      <th>Quad Ridge</th>
+      <th>Quad regression</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Train R^2</th>
+      <td>0.57324</td>
+      <td>0.564978</td>
+      <td>0.58385</td>
+      <td>0.636819</td>
+    </tr>
+    <tr>
+      <th>Test R^2</th>
+      <td>0.57324</td>
+      <td>0.564978</td>
+      <td>0.58385</td>
+      <td>0.636819</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Conclusion:-Quad-regression-without-regularization-performs-best-among-four-methods.">Conclusion: Quad regression without regularization performs best among four methods.<a class="anchor-link" href="#Conclusion:-Quad-regression-without-regularization-performs-best-among-four-methods.">&#182;</a></h3>
+</div>
+</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Check if reviews are English</span>
-<span class="n">reviews</span><span class="p">[</span><span class="s1">&#39;if_English&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reviews</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">check_if_english1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">reviews_cleaned</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">reviews</span><span class="p">[</span><span class="n">reviews</span><span class="p">[</span><span class="s1">&#39;if_English&#39;</span><span class="p">]</span><span class="o">==</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">reviews_cleaned</span><span class="o">=</span><span class="n">reviews_cleaned</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;null_review&#39;</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
-<span class="k">print</span> <span class="n">reviews_cleaned</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="nb">float</span><span class="p">(</span><span class="n">reviews_cleaned</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mi">277659</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">reviews_cleaned</span><span class="p">[</span><span class="mi">1000</span><span class="p">:</span><span class="mi">1020</span><span class="p">]</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span></span><span class="n">reviews_cleaned</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;./Data/reviews_cleaned.csv&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">index</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
+<div class=" highlight hl-ipython2"><pre><span></span> 
 </pre></div>
 
 </div>
