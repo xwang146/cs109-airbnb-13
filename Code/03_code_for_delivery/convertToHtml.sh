@@ -3,5 +3,5 @@
 for f in *ipynb
 do
  echo "Processing $f"
- jupyter nbconvert --to html --template full --output ../../Website/${f%.*}.html $f
+ jupyter nbconvert --to html --template full --output ../../Website_for_prediction/${f%.*}.html $f
 done

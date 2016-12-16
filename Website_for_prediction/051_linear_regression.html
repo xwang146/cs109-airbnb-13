@@ -11773,13 +11773,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy</span> <span class="kn">as</span> <span class="nn">sp</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">savgol_filter</span>
 <span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">mode</span>
 <span class="kn">import</span> <span class="nn">matplotlib</span>
@@ -11819,7 +11820,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Load listing data</span>
@@ -11849,7 +11850,7 @@ div#notebook {
 </div>
 </div>
 
-<div class="output_area"><div class="prompt output_prompt">Out[2]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -12024,7 +12025,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#Step to convert longitude and latitude to price cluster by KNN</span>
@@ -12064,7 +12065,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Get x and y</span>
@@ -12097,7 +12098,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -12119,7 +12120,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#fit linear regression model</span>
@@ -12133,11 +12134,14 @@ div#notebook {
             <span class="p">(</span><span class="s2">&quot;LinearModel&quot;</span><span class="p">,</span> <span class="n">LinearRegression</span><span class="p">())</span>
         <span class="p">])</span>
 
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">compute_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
 <span class="k">print</span> <span class="s2">&quot;Train Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Test Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">LR_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)],</span> 
-                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">])</span>
+<span class="n">LR_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">compute_time</span><span class="p">],</span> 
+                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -12150,8 +12154,8 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Train Score 0.668004148992
-Test Score 0.667806163017
+<pre>Train Score 0.668045449777
+Test Score 0.667931090361
 </pre>
 </div>
 </div>
@@ -12171,7 +12175,7 @@ Test Score 0.667806163017
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#fit Lasso model</span>
@@ -12185,11 +12189,14 @@ Test Score 0.667806163017
             <span class="p">(</span><span class="s2">&quot;lasso&quot;</span><span class="p">,</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.02</span><span class="p">))</span>
         <span class="p">])</span>
 
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">compute_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
 <span class="k">print</span> <span class="s2">&quot;Train Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Test Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">Lasso_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)],</span> 
-                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">])</span>
+<span class="n">Lasso_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">compute_time</span><span class="p">],</span> 
+                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -12223,7 +12230,7 @@ Test Score 0.653091780978
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#fit Ridge model</span>
@@ -12237,11 +12244,14 @@ Test Score 0.653091780978
             <span class="p">(</span><span class="s2">&quot;ridge&quot;</span><span class="p">,</span> <span class="n">Ridge</span><span class="p">())</span>
         <span class="p">])</span>
 
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">compute_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
 <span class="k">print</span> <span class="s2">&quot;Train Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Test Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">Ridge_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)],</span> 
-                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">])</span>
+<span class="n">Ridge_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">compute_time</span><span class="p">],</span> 
+                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -12275,7 +12285,7 @@ Test Score 0.668031785522
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#fit Ridge model</span>
@@ -12289,11 +12299,14 @@ Test Score 0.668031785522
             <span class="p">(</span><span class="s2">&quot;elasticnet&quot;</span><span class="p">,</span> <span class="n">ElasticNet</span> <span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.02</span><span class="p">))</span>
         <span class="p">])</span>
 
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">compute_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
 <span class="k">print</span> <span class="s2">&quot;Train Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Test Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-<span class="n">ElasticNet_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)],</span> 
-                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">])</span>
+<span class="n">ElasticNet_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="n">compute_time</span><span class="p">],</span> 
+                                                <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">])</span>
 </pre></div>
 
 </div>
@@ -12327,14 +12340,15 @@ Test Score 0.661458755498
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1">#compare all scores</span>
-<span class="n">score_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;linear regression&#39;</span><span class="p">:</span> <span class="n">LR_score</span><span class="p">,</span> 
+<span class="n">score_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;Linear regression&#39;</span><span class="p">:</span> <span class="n">LR_score</span><span class="p">,</span> 
                          <span class="s1">&#39;Lasso&#39;</span><span class="p">:</span> <span class="n">Lasso_score</span><span class="p">,</span>
                          <span class="s1">&#39;Ridge&#39;</span><span class="p">:</span> <span class="n">Ridge_score</span><span class="p">,</span>
                          <span class="s1">&#39;Elastic Net&#39;</span><span class="p">:</span> <span class="n">ElasticNet_score</span><span class="p">})</span>
+<span class="n">score_df</span> <span class="o">=</span> <span class="n">score_df</span><span class="o">.</span><span class="n">reindex_axis</span><span class="p">([</span><span class="s1">&#39;Linear regression&#39;</span><span class="p">,</span> <span class="s1">&#39;Lasso&#39;</span><span class="p">,</span> <span class="s1">&#39;Ridge&#39;</span><span class="p">,</span> <span class="s1">&#39;Elastic Net&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">score_df</span>
 </pre></div>
 
@@ -12346,7 +12360,7 @@ Test Score 0.661458755498
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[10]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[53]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
@@ -12354,26 +12368,33 @@ Test Score 0.661458755498
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>Elastic Net</th>
+      <th>Linear regression</th>
       <th>Lasso</th>
       <th>Ridge</th>
-      <th>linear regression</th>
+      <th>Elastic Net</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>Train R^2</th>
-      <td>0.661742</td>
+      <td>0.668045</td>
       <td>0.654534</td>
       <td>0.668048</td>
-      <td>0.668004</td>
+      <td>0.661742</td>
     </tr>
     <tr>
       <th>Test R^2</th>
-      <td>0.661742</td>
+      <td>0.668045</td>
       <td>0.654534</td>
       <td>0.668048</td>
-      <td>0.668004</td>
+      <td>0.661742</td>
+    </tr>
+    <tr>
+      <th>Compute Time</th>
+      <td>0.231716</td>
+      <td>0.186720</td>
+      <td>0.191315</td>
+      <td>0.191743</td>
     </tr>
   </tbody>
 </table>
@@ -12382,6 +12403,20 @@ Test Score 0.661458755498
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Save data</span>
+<span class="n">score_df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;../../Data/051_scores.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+
+</div>
 </div>
 </div>
 

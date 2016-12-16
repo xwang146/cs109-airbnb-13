@@ -11800,7 +11800,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="01.-Load-data">01. Load data<a class="anchor-link" href="#01.-Load-data">&#182;</a></h1><ul>
-<li>File: 010_load_data.ipynb</li>
+<li><strong>File</strong>: 010_load_data.ipynb</li>
 <li>We loaded three datasets and correct any incorrect format of data for later analysis.</li>
 </ul>
 
@@ -11813,7 +11813,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="02.-Data-exploration">02. Data exploration<a class="anchor-link" href="#02.-Data-exploration">&#182;</a></h1><h2 id="Listing-data">Listing data<a class="anchor-link" href="#Listing-data">&#182;</a></h2><ul>
-<li>File: 021_visualize_listings_1.ipynb, 021_visualize_listings_2.ipynb</li>
+<li><strong>File</strong>: 021_visualize_listings_1.ipynb, 021_visualize_listings_2.ipynb</li>
 <li>We explored listing data to have better understanding of overall listing distribution.</li>
 <li>Correlation between predictors<ul>
 <li><img src="Figures/Fig_021.png"></li>
@@ -11825,14 +11825,14 @@ div#notebook {
 <li>Most of review scores are high (&gt; 8)</li>
 </ul>
 <h2 id="Calendar-data">Calendar data<a class="anchor-link" href="#Calendar-data">&#182;</a></h2><ul>
-<li>File: 022_visualize_calendar.ipynb</li>
+<li><strong>File</strong>: 022_visualize_calendar.ipynb</li>
 <li>There is a temporal trend in prices, including local trend (weekend spikes) and global trend (monthly fluctuation).<ul>
 <li><img src="Figures/Fig_022.png"></li>
 </ul>
 </li>
 </ul>
 <h2 id="Review-data">Review data<a class="anchor-link" href="#Review-data">&#182;</a></h2><ul>
-<li>File: 023_visualize_reviews.ipynb</li>
+<li><strong>File</strong>: 023_visualize_reviews.ipynb</li>
 <li>We cleaned 10% of non-English review texts.</li>
 <li>We analyzed review texts with VADER (Valence Aware Dictionary and sEntiment Reasoner) to get sentiment scores for reviews.</li>
 <li>We checked correlation between price and sentiment scores, it turned out to be low.<ul>
@@ -11841,7 +11841,7 @@ div#notebook {
 </li>
 </ul>
 <h2 id="Location-clustering-of-price">Location clustering of price<a class="anchor-link" href="#Location-clustering-of-price">&#182;</a></h2><ul>
-<li>File: 024_location_clustering.ipynb</li>
+<li><strong>File</strong>: 024_location_clustering.ipynb</li>
 <li>We checked location clustering of price by KNN</li>
 <li><strong>This feature can be used for feature engineering in later steps.</strong><ul>
 <li><img src="Figures/Fig_024.png"></li>
@@ -11863,7 +11863,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="03.-Baseline-model">03. Baseline model<a class="anchor-link" href="#03.-Baseline-model">&#182;</a></h1><ul>
-<li>File: 030_baseline.ipynb</li>
+<li><strong>File</strong>: 030_baseline.ipynb</li>
 <li>We fit the data with a linear regression model</li>
 <li>Train Score 0.283973128565</li>
 <li>Test Score 0.312829854813</li>
@@ -11879,7 +11879,7 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="04.-Preprocessing">04. Preprocessing<a class="anchor-link" href="#04.-Preprocessing">&#182;</a></h1><ul>
-<li>File: 041_preprocessing.ipynb</li>
+<li><strong>File</strong>: 041_preprocessing.ipynb</li>
 <li>We checked distribution of price (y) and found it's right skewed.</li>
 <li>By log transformation, we were able to get a response distribution that is close to symmetric (which is good for linear regression models).<ul>
 <li><img src="Figures/Fig_041.png"></li>
@@ -11904,13 +11904,38 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="04.-Data-reduction">04. Data reduction<a class="anchor-link" href="#04.-Data-reduction">&#182;</a></h1><ul>
-<li>File: 042_predictor_selection.ipynb, 043_reduce_dim.ipynb</li>
+<li><strong>File</strong>: 042_predictor_selection.ipynb, 043_reduce_dim.ipynb</li>
 <li>We used recursive feature selection and LASSO for feature selection.</li>
-<li>We
-compared results from two methods and select a set of 27 important predictors.</li>
-<li>Selected features = ["accommodates", "bathrooms", "bedrooms", "review_scores_checkin", "review_scores_communication", "latitude", "longitude", "property_type_0", "property_type_1", "property_type_2", "property_type_3", "property_type_4", "property_type_5", "room_type_0", "room_type_1", "room_type_2", "bed_type_0", "bed_type_1", "bed_type_2", "bed_type_3", "bed_type_4", "beds", "review_scores_value", "host_listing_count", "review_scores_cleanliness", "review_scores_accuracy", "minimum_nights"]</li>
-<li>We performed PCA to have 99.9% of explained variance and fit PCA reduced data to a linear regression.<ul>
-<li>R^2 is 0.118438992869. Therefore, we decided not to use PCA and also because our number of predictors are not large.</li>
+<li>We compared results from two methods and select a set of 27 important predictors.</li>
+<li><strong>Selected Features</strong><ul>
+<li>accommodates</li>
+<li>bathrooms</li>
+<li>bedrooms</li>
+<li>review_scores_checkin</li>
+<li>review_scores_communication</li>
+<li>latitude</li>
+<li>longitude</li>
+<li>property_type (6 indicators)</li>
+<li>room_type (3 indicators)</li>
+<li>bed_type (3 indicators)</li>
+<li>review_scores_value</li>
+<li>beds</li>
+<li>host_listing_count</li>
+<li>review_scores_cleanliness</li>
+<li>review_scores_accuracy</li>
+<li>minimum_nights</li>
+</ul>
+</li>
+<li><p>We engineered a "location" feature by fitting latitude and longitude against log price with KNN.</p>
+<ul>
+<li>Very similiar purpose as zip code in baseline model</li>
+<li>Advantages: single predictor rather than a large number of categorical indicators, less problematic with small sample sizes</li>
+<li>KNN model is applied seperately for each training set (because it uses price data).</li>
+</ul>
+</li>
+<li><p>We attempted PCA to extract 99.9% of explained variance and fit PCA reduced data to a linear regression.</p>
+<ul>
+<li>R^2 is 0.118438992869. We decided not to use PCA, because the number of predictors is small and it did not improve our fit.</li>
 </ul>
 </li>
 </ul>
@@ -11924,9 +11949,9 @@ compared results from two methods and select a set of 27 important predictors.</
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h1 id="05.-Models">05. Models<a class="anchor-link" href="#05.-Models">&#182;</a></h1><ul>
-<li>File: 051_linear_regression.ipynb</li>
-<li>Linear regression, Lasso, Ridge, Elastic Net<ul>
-<li><img src="Figures/Fig_051.png" width="88%" height="88%"></li>
+<li><strong>File</strong>: 051_linear_regression.ipynb</li>
+<li><strong>Models</strong>: Linear regression, Lasso, Ridge, Elastic Net<ul>
+<li><img src="Figures/Fig_051.png" width="70%" height="70%"></li>
 </ul>
 </li>
 </ul>
@@ -11940,10 +11965,10 @@ compared results from two methods and select a set of 27 important predictors.</
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>File: 052_quadratic_regression.ipynb</li>
+<li><strong>File</strong>: 052_quadratic_regression.ipynb</li>
 <li>Quadratic transformation of numerical predictors.</li>
-<li>Fit quadratic regression, quadratic Lasso, quadratic Ridge, quadratic Elastic Net<ul>
-<li><img src="Figures/Fig_052.png"  width="90%" height="90%"></li>
+<li><strong>Models</strong>: Quadratic regression, Quadratic Lasso, Quadratic Ridge, Quadratic Elastic Net<ul>
+<li><img src="Figures/Fig_052.png"  width="80%" height="80%"></li>
 </ul>
 </li>
 </ul>
@@ -11957,12 +11982,8 @@ compared results from two methods and select a set of 27 important predictors.</
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>File: 053_tree_methods.ipynb</li>
-<li>Tree models:<ul>
-<li>Random forest: R^2 = 0.687</li>
-<li>Adaboost: R^2 = 0.605</li>
-</ul>
-</li>
+<li><strong>File</strong>: 053_tree_methods.ipynb</li>
+<li><strong>Models</strong>: Random forest, Adaboost</li>
 </ul>
 
 </div>
@@ -11974,8 +11995,8 @@ compared results from two methods and select a set of 27 important predictors.</
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>File: 054_SVR.ipynb</li>
-<li>SVR R^2 = 0.677</li>
+<li><strong>File</strong>: 054_SVR.ipynb</li>
+<li><strong>Model</strong>: SVR</li>
 </ul>
 
 </div>
@@ -11987,11 +12008,8 @@ compared results from two methods and select a set of 27 important predictors.</
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>File: 055_ensemble.ipynb</li>
-<li>Gradient Boosting<ul>
-<li>R^2 0.65946833061</li>
-</ul>
-</li>
+<li><strong>File</strong>: 055_ensemble.ipynb</li>
+<li><strong>Model</strong>:Gradient Boosting</li>
 </ul>
 
 </div>
@@ -12003,11 +12021,9 @@ compared results from two methods and select a set of 27 important predictors.</
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>File: 056_neural_network.ipynb</li>
-<li>Neural Network (four layers fully connected model)<ul>
-<li>R^2 = 0.673845863795</li>
-</ul>
-</li>
+<li><strong>File</strong>: 056_neural_network.ipynb</li>
+<li><strong>Model</strong>: Neural Network (four layers fully connected model)</li>
+<li><img src="Figures/Fig_055.png" width="90%" height="90%"></li>
 </ul>
 
 </div>
@@ -12019,17 +12035,25 @@ compared results from two methods and select a set of 27 important predictors.</
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <ul>
-<li>File: 057_chosen_model.ipynb</li>
-<li>Random forest<ul>
-<li>R^2 = 0.700301598143</li>
-</ul>
-</li>
-<li>Error analysis<ul>
+<li><strong>File</strong>: 057_chosen_model.ipynb</li>
+<li><strong>Model: Random forest</strong></li>
+<li><strong>Error analysis</strong><ul>
 <li><img src="Figures/Fig_053.png"></li>
 <li><img src="Figures/Fig_054.png"></li>
 </ul>
 </li>
 </ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Best-Model">Best Model<a class="anchor-link" href="#Best-Model">&#182;</a></h2><p>Our best model was a random forest on the transformed data (27 predictors + location clustering ~ log price).
+After tuning, the model had an $R^2$ of about 0.7 for out-of-sample predictions, which was the highest among all the models we tried.  The random forest model was also fast, losing only to simple linear regression variants.  The residual plots show that most of the remaining error lies outliers with high prices.  There did not appear to be a pattern of errors associated with location.</p>
 
 </div>
 </div>

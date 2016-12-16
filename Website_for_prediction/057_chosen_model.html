@@ -11784,6 +11784,7 @@ div#notebook {
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.cm</span> <span class="kn">as</span> <span class="nn">cmx</span>
 <span class="kn">import</span> <span class="nn">matplotlib.colors</span> <span class="kn">as</span> <span class="nn">colors</span>
+<span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">preprocessing</span>
 <span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
@@ -11910,7 +11911,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">listing</span><span class="p">[</span><span class="s2">&quot;price&quot;</span><span class="p">])</span>
@@ -11950,7 +11951,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="kn">import</span> <span class="n">BaseEstimator</span>
@@ -11989,7 +11990,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">x_train</span><span class="p">,</span> <span class="n">x_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -11997,9 +11998,14 @@ div#notebook {
             <span class="p">(</span><span class="s2">&quot;location&quot;</span><span class="p">,</span> <span class="n">LocationPreprocessor</span><span class="p">()),</span>
             <span class="p">(</span><span class="s2">&quot;rf&quot;</span><span class="p">,</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
         <span class="p">])</span>
+
+<span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">compute_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
+
 <span class="k">print</span> <span class="s2">&quot;Train Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;Test Score&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;Compute Time&quot;</span><span class="p">,</span> <span class="n">compute_time</span>
 </pre></div>
 
 </div>
@@ -12012,8 +12018,9 @@ div#notebook {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Train Score 0.88020361985
-Test Score 0.700301598143
+<pre>Train Score 0.878780402523
+Test Score 0.700203960294
+Compute Time 3.293861866
 </pre>
 </div>
 </div>
@@ -13582,6 +13589,210 @@ IjIGWAcc5fJYsQC9gakiYgMWp5v+BVAa2CgiApwCOmTmSyulMkcfJ1IqhxARf2NMnIgEYr/+eq8x
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Model-comparison">Model comparison<a class="anchor-link" href="#Model-comparison">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Compare all models</span>
+<span class="n">score_051</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../Data/051_scores.csv&#39;</span><span class="p">)</span>
+<span class="n">score_052</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;../../Data/052_scores.csv&#39;</span><span class="p">)</span>
+<span class="n">RF_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">0.878780402523</span><span class="p">,</span> <span class="mf">0.700203960294</span><span class="p">,</span> <span class="mf">3.293861866</span><span class="p">],</span> 
+                    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">])</span>
+<span class="n">Adaboost_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">0.617183993933</span><span class="p">,</span> <span class="mf">0.606288198092</span><span class="p">,</span> <span class="mf">10.9713840485</span><span class="p">],</span> 
+                    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">])</span>
+<span class="n">SVR_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">0.735636620129</span><span class="p">,</span> <span class="mf">0.678170699523</span><span class="p">,</span> <span class="mf">35.0556018353</span><span class="p">],</span> 
+                    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">])</span>
+<span class="n">Gradboost_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">0.661300447664</span><span class="p">,</span> <span class="mf">0.65946841902</span><span class="p">,</span> <span class="mf">7.26501512527</span><span class="p">],</span> 
+                    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">])</span>
+<span class="n">NeuralNet_score</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mf">0.745976209321</span><span class="p">,</span> <span class="mf">0.673929516096</span><span class="p">,</span> <span class="mf">350.251990795</span><span class="p">],</span> 
+                    <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">])</span>
+<span class="n">score_all</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">score_051</span><span class="p">,</span><span class="n">score_052</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">score_all</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Train R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Test R^2&#39;</span><span class="p">,</span> <span class="s1">&#39;Compute Time&#39;</span><span class="p">]</span>
+<span class="n">score_all</span><span class="p">[</span><span class="s1">&#39;Random Forest&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">RF_score</span>
+<span class="n">score_all</span><span class="p">[</span><span class="s1">&#39;AdaBoost&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">Adaboost_score</span>
+<span class="n">score_all</span><span class="p">[</span><span class="s1">&#39;SVR&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">SVR_score</span>
+<span class="n">score_all</span><span class="p">[</span><span class="s1">&#39;Gradient Boosting&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">Gradboost_score</span>
+<span class="n">score_all</span><span class="p">[</span><span class="s1">&#39;Neural Network&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">NeuralNet_score</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">score_new</span> <span class="o">=</span> <span class="n">score_all</span><span class="o">.</span><span class="n">reindex_axis</span><span class="p">([</span><span class="s1">&#39;Linear regression&#39;</span><span class="p">,</span> <span class="s1">&#39;Lasso&#39;</span><span class="p">,</span> <span class="s1">&#39;Ridge&#39;</span><span class="p">,</span> <span class="s1">&#39;Elastic Net&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Quad regression&#39;</span><span class="p">,</span> <span class="s1">&#39;Quad Lasso&#39;</span><span class="p">,</span> <span class="s1">&#39;Quad Ridge&#39;</span><span class="p">,</span> <span class="s1">&#39;Quad Elastic Net&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Random Forest&#39;</span><span class="p">,</span> <span class="s1">&#39;AdaBoost&#39;</span><span class="p">,</span> <span class="s1">&#39;Gradient Boosting&#39;</span><span class="p">,</span> <span class="s1">&#39;SVR&#39;</span><span class="p">,</span> <span class="s1">&#39;Neural Network&#39;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">score_new</span><span class="p">[[</span><span class="s1">&#39;Linear regression&#39;</span><span class="p">,</span> <span class="s1">&#39;Lasso&#39;</span><span class="p">,</span> <span class="s1">&#39;Ridge&#39;</span><span class="p">,</span> <span class="s1">&#39;Elastic Net&#39;</span><span class="p">,</span>
+                       <span class="s1">&#39;Quad regression&#39;</span><span class="p">,</span> <span class="s1">&#39;Quad Lasso&#39;</span><span class="p">,</span> <span class="s1">&#39;Quad Ridge&#39;</span><span class="p">,</span> <span class="s1">&#39;Quad Elastic Net&#39;</span><span class="p">]]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Linear regression</th>
+      <th>Lasso</th>
+      <th>Ridge</th>
+      <th>Elastic Net</th>
+      <th>Quad regression</th>
+      <th>Quad Lasso</th>
+      <th>Quad Ridge</th>
+      <th>Quad Elastic Net</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Train R^2</th>
+      <td>0.668045</td>
+      <td>0.654534</td>
+      <td>0.668048</td>
+      <td>0.661742</td>
+      <td>0.636819</td>
+      <td>0.564978</td>
+      <td>0.58385</td>
+      <td>0.573240</td>
+    </tr>
+    <tr>
+      <th>Test R^2</th>
+      <td>0.668045</td>
+      <td>0.654534</td>
+      <td>0.668048</td>
+      <td>0.661742</td>
+      <td>0.636819</td>
+      <td>0.564978</td>
+      <td>0.58385</td>
+      <td>0.573240</td>
+    </tr>
+    <tr>
+      <th>Compute Time</th>
+      <td>0.190350</td>
+      <td>0.186720</td>
+      <td>0.191315</td>
+      <td>0.191743</td>
+      <td>0.037014</td>
+      <td>0.163459</td>
+      <td>0.02374</td>
+      <td>0.114789</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="n">score_new</span><span class="p">[[</span><span class="s1">&#39;Random Forest&#39;</span><span class="p">,</span> <span class="s1">&#39;AdaBoost&#39;</span><span class="p">,</span> <span class="s1">&#39;Gradient Boosting&#39;</span><span class="p">,</span> <span class="s1">&#39;SVR&#39;</span><span class="p">,</span> <span class="s1">&#39;Neural Network&#39;</span><span class="p">]]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Random Forest</th>
+      <th>AdaBoost</th>
+      <th>Gradient Boosting</th>
+      <th>SVR</th>
+      <th>Neural Network</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>Train R^2</th>
+      <td>0.878780</td>
+      <td>0.617184</td>
+      <td>0.661300</td>
+      <td>0.735637</td>
+      <td>0.745976</td>
+    </tr>
+    <tr>
+      <th>Test R^2</th>
+      <td>0.700204</td>
+      <td>0.606288</td>
+      <td>0.659468</td>
+      <td>0.678171</td>
+      <td>0.673930</td>
+    </tr>
+    <tr>
+      <th>Compute Time</th>
+      <td>3.293862</td>
+      <td>10.971384</td>
+      <td>7.265015</td>
+      <td>35.055602</td>
+      <td>350.251991</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
 </div>
     </div>
   </div>
