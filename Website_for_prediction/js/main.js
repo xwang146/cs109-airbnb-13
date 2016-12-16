@@ -81,8 +81,6 @@ L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 function onMapClick(e) {
-    //alert("You clicked the map at " + e.latlng);
     $("#Lon").html(e.latlng.lng);
     $("#Lat").html(e.latlng.lat);
-
 }
