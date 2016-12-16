@@ -31,7 +31,7 @@ function predict(){
       type: 'get',
       data: userInput,
       success: function(response) {
-        $('#output').html('$' + Math.round(parseFloat(response), 2))
+        $('#output').html('$' + Math.round(parseFloat(response)))
       },
       error: function(xhr) {
         console.log('Prediction Error')
@@ -62,25 +62,14 @@ $(document).ready(function() {
 });
 //End modeling navbar
 
+//Longitude and latitude selector
+var map = L.map('map').setView([40.712784, -74.005941], 11).on('click', function(e) {
+  $('#Lon').html(e.latlng.lng.toFixed(4));
+  $('#Lat').html(e.latlng.lat.toFixed(4));
+});
 
-var margin = {top: 20, right: 10, bottom: 20, left: 20};
-var width = 700 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-var padding = 20;
-
-var svg = d3.select("#map").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
-
-var map = L.map('map').setView([40.712784, -74.005941], 11).on('click', onMapClick);
 L.Icon.Default.imagePath = 'images/';
 
 L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
-
-function onMapClick(e) {
-    $("#Lon").html(e.latlng.lng);
-    $("#Lat").html(e.latlng.lat);
-}

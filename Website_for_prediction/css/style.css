@@ -54,6 +54,13 @@ a:focus {
   font-weight: 400;
 }
 
+#output {
+  font-size: 24px;
+}
+
+#locationCoordinates {
+  font-size: 16px;
+}
 
 /*#contentFrame {*/
   /*height: 5000px;*/
